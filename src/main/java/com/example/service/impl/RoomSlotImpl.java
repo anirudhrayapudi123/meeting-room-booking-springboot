@@ -5,21 +5,16 @@ import com.example.Exception.CustomException;
 import com.example.entity.*;
 import com.example.repository.*;
 import com.example.service.RoomSlot;
-import com.sun.org.apache.regexp.internal.RE;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.modelmapper.TypeToken;
-import sun.awt.geom.AreaOp;
 
 import javax.transaction.Transactional;
 import java.lang.reflect.Type;
 
-import java.net.SocketPermission;
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,13 +26,13 @@ public class RoomSlotImpl implements RoomSlot {
     @Autowired
     SlotsRepository slotsRepository;
     @Autowired
-    CreateSlotRepositoty createSlotRepositoty;
+    CreateSlotRepository createSlotRepository;
     @Autowired
     RoomParticiptantsEntryRepository roomParticiptantsEntryRepository;
     RoomParticipantEntity roomParticipantEntity;
     private ModelMapper modelMapper = new ModelMapper();
 
-    private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+  //  private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     @Override
     public List<Integer> getFloor() throws CustomException {
@@ -70,21 +65,32 @@ public class RoomSlotImpl implements RoomSlot {
 
     @Override
     public String bookSlots(RoomSlotBookDto roomSlotBookDto){
-        List<RoomSlotsEntity> roomSlotEntity = createSlotRepositoty.findByStartTimeOrStartTimeGreaterThanAndStartTimeLessThanOrEndTimeGreaterThanAndEndTimeOrEndTimeLessThanAndRoomName(roomSlotBookDto.getStartTime(),roomSlotBookDto.getStartTime(), roomSlotBookDto.getEndTime(), roomSlotBookDto.getStartTime(), roomSlotBookDto.getEndTime(),roomSlotBookDto.getEndTime(), roomSlotBookDto.getRoomName());
-        if (roomSlotEntity.isEmpty()) {
+        List<RoomSlotsEntity> roomSlotEntity = createSlotRepository.findByStartTimeGreaterThanAndStartTimeLessThanOrEndTimeGreaterThanAndEndTimeLessThanAndRoomName(roomSlotBookDto.getStartTime(),roomSlotBookDto.getStartTime(), roomSlotBookDto.getEndTime(), roomSlotBookDto.getEndTime(), roomSlotBookDto.getRoomName());
+        if (roomSlotEntity.isEmpty()){
+
             RoomSlotsEntity roomSlotsEntity1 = modelMapper.map(roomSlotBookDto,RoomSlotsEntity.class);
-            createSlotRepositoty.save(roomSlotsEntity1);
+            //roomSlotsEntity1.setStartDate(roomSlotBookDto.getStartTime());
+            createSlotRepository.save(roomSlotsEntity1);
             String[] participants=roomSlotBookDto.getParticipants();
             String uuid=roomSlotsEntity1.getUniqueHash();
-
+            Mapping mapping1=new Mapping();
+            mapping1.setParticipant(roomSlotBookDto.getRoomHost());
+            mapping1.setStartDate(roomSlotBookDto.getStartTime());
+            mapping1.setUniqueHash(uuid);
+            mapping1.setManager("manager");
+            System.out.println("Hello");
+            RoomParticipantEntity roomParticipantEntity1=modelMapper.map(mapping1,RoomParticipantEntity.class);
+            roomParticiptantsEntryRepository.save(roomParticipantEntity1);
             for(String str:participants){
                 RoomParticipantEntity roomParticipantEntity=null;
-                Mapping mapping=null;
+                Mapping mapping=new Mapping();
                 mapping.setParticipant(str);
+
                mapping.setUniqueHash(uuid);
+               mapping.setStartDate(roomSlotBookDto.getStartTime());
+               mapping.setManager("participant");
            roomParticipantEntity= modelMapper.map(mapping, RoomParticipantEntity.class);
                roomParticiptantsEntryRepository.save(roomParticipantEntity);
-                System.out.println("done");
             }
           return "booked Successfully";
         }
@@ -97,10 +103,10 @@ public class RoomSlotImpl implements RoomSlot {
     @Transactional
     @Override
     public ResponseEntity<Object> deleteSession(String uniqueHash) throws CustomException{
-        RoomSlotsEntity roomSlotsEntity = createSlotRepositoty.findByUniqueHash(uniqueHash);
+        RoomSlotsEntity roomSlotsEntity = createSlotRepository.findByUniqueHash(uniqueHash);
         if (roomSlotsEntity == null) {
             throw new CustomException("This Session does not exist", HttpStatus.NO_CONTENT);
-        } else if (createSlotRepositoty.removeByUniqueHash(uniqueHash) != 0) {
+        } else if (createSlotRepository.removeByUniqueHash(uniqueHash) != 0) {
             return ResponseEntity.status(HttpStatus.ACCEPTED).body("Session Deleted Succesfully");
         }
         throw new CustomException("This Session does not exist", HttpStatus.NO_CONTENT);
@@ -108,45 +114,30 @@ public class RoomSlotImpl implements RoomSlot {
 
 
     @Override
-    public List<MyMeetingsDto> myMeetings(MyMeetingsGetDto myMeetingsGetDto){
-     List<RoomParticipantEntity> roomParticipantEntity=roomParticiptantsEntryRepository.findAllByParticipant(myMeetingsGetDto.getParticipant());
-      if(roomParticipantEntity!=null){
-          MyMeetingsDto myMeetingsDto=null;
-          ArrayList<MyMeetingsDto> al=new ArrayList<>();
-          for(RoomParticipantEntity room :roomParticipantEntity){
-              String str=room.getUniqueHash();
-            RoomSlotsEntity roomSlotsEntity=createSlotRepositoty.findByUniqueHash(str);
-            myMeetingsDto.setHost(true);
-          myMeetingsDto=modelMapper.map(roomSlotsEntity,MyMeetingsDto.class);
-            al.add(myMeetingsDto);
-          }
-          return al;
-      }
-      else if(roomParticipantEntity==null) {
-          List<RoomSlotsEntity> roomSlotsEntities = createSlotRepositoty.findAllByRoomHostAndStartTime(myMeetingsGetDto.getParticipant(),myMeetingsGetDto.getStartTime());
-          if (roomSlotsEntities != null) {
-              ArrayList<MyMeetingsDto> al = new ArrayList<>();
-              for (RoomSlotsEntity room : roomSlotsEntities) {
-                  MyMeetingsDto myMeetingsDto=null;
-                  String str = room.getUniqueHash();
-                  RoomSlotsEntity roomSlotsEntity = createSlotRepositoty.findByUniqueHash(str);
-                  myMeetingsDto.setHost(false);
-                  myMeetingsDto=modelMapper.map(roomSlotsEntity,MyMeetingsDto.class);
-                  al.add(myMeetingsDto);
-              }
-              return al;
-          }
-        return null;
-      }
-      else{
-          return null;
-      }
+    public ResponseEntity<Object> myMeetings(MyMeetingsGetDto myMeetingsGetDto) throws CustomException{
+        List<RoomParticipantEntity> roomParticipantEntityList=roomParticiptantsEntryRepository.findByParticipantAndStartDate(myMeetingsGetDto.getParticipant(),myMeetingsGetDto.getStartDate());
+        if(!(roomParticipantEntityList.isEmpty())){
+            ArrayList<MyMeetingsDto> al=new ArrayList<>();
+            for(RoomParticipantEntity room:roomParticipantEntityList){
+                String str=room.getUniqueHash();
+                RoomSlotsEntity roomSlotsEntity=createSlotRepository.findByUniqueHash(str);
+                MyMeetingsDto myMeetingsDto=null;
 
+                myMeetingsDto=modelMapper.map(roomSlotsEntity,MyMeetingsDto.class);
+
+                myMeetingsDto.setManager(room.getManager());
+                al.add(myMeetingsDto);
+            }
+            return ResponseEntity.status(HttpStatus.ACCEPTED).body(al);
+        }
+        else{
+            throw new CustomException("No Meetings",HttpStatus.NO_CONTENT);
+        }
     }
 
     @Override
     public String getValidation(ValidatingSlotsDto validatingSlotsDto){
-      List<RoomSlotsEntity> roomSlotsEntities= createSlotRepositoty.findByStartTimeOrStartTimeGreaterThanAndStartTimeLessThanOrEndTimeGreaterThanAndEndTimeOrEndTimeLessThanAndRoomName(validatingSlotsDto.getStartDate(),validatingSlotsDto.getStartDate(),validatingSlotsDto.getEndDate(),validatingSlotsDto.getStartDate(),validatingSlotsDto.getEndDate(),validatingSlotsDto.getEndDate(),validatingSlotsDto.getRoomName());
+      List<RoomSlotsEntity> roomSlotsEntities= createSlotRepository.findByStartTimeGreaterThanAndStartTimeLessThanOrEndTimeGreaterThanAndEndTimeLessThanAndRoomName(validatingSlotsDto.getStartDate(),validatingSlotsDto.getStartDate(),validatingSlotsDto.getEndDate(),validatingSlotsDto.getEndDate(),validatingSlotsDto.getRoomName());
      if(roomSlotsEntities.isEmpty()){
        // throw new CustomException("Slots Available",HttpStatus.ACCEPTED);
          return "slots available";
@@ -161,13 +152,13 @@ public class RoomSlotImpl implements RoomSlot {
     @Override
     public ResponseEntity<Object> updateSlots(UpdateDto updateDto) throws CustomException {
             RoomSlotsEntity roomSlotsEntity1 = modelMapper.map(updateDto, RoomSlotsEntity.class);
-            createSlotRepositoty.save(roomSlotsEntity1);
+            createSlotRepository.save(roomSlotsEntity1);
            throw new CustomException("Updated Succesfully",HttpStatus.ACCEPTED);
     }
 
     @Override
     public RoomSlotsEntity getSessionDetails(String uuid) throws CustomException{
-        RoomSlotsEntity entity=createSlotRepositoty.findByUniqueHash(uuid);
+        RoomSlotsEntity entity=createSlotRepository.findByUniqueHash(uuid);
         if(entity!=null){
             return entity;
         }
@@ -175,8 +166,5 @@ public class RoomSlotImpl implements RoomSlot {
            throw new CustomException("Session not Available",HttpStatus.NO_CONTENT);
         }
     }
-
-
-
 
 }

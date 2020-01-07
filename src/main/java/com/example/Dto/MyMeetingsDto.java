@@ -1,45 +1,42 @@
 package com.example.Dto;
 
 import java.sql.Date;
-import java.sql.Time;
-import java.time.LocalDate;
+
 
 public class MyMeetingsDto {
 
-    private Time startTime;
+    private Date startTime;
 
-    private Time endTime;
-
-    private LocalDate date;
+    private Date endTime;
 
     private String roomName;
 
     private String roomHost;
 
-    private boolean host;
+    public String getManager() {
+        return manager;
+    }
 
-    public Time getStartTime() {
+    public void setManager(String manager) {
+        this.manager = manager;
+    }
+
+    private String manager;
+
+    public Date getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(Time startTime) {
+    public void setStartTime(Date startTime) {
         this.startTime = startTime;
     }
 
-    public Time getEndTime() {
+    public Date getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(Time endTime) {
+    public void setEndTime(Date endTime) {
         this.endTime = endTime;
-    }
-
-    public LocalDate getDate() {
-        return date;
-    }
-
-    public void setDate(LocalDate date) {
-        this.date = date;
     }
 
     public String getRoomName() {
@@ -58,11 +55,4 @@ public class MyMeetingsDto {
         this.roomHost = roomHost;
     }
 
-    public boolean isHost() {
-        return host;
-    }
-
-    public void setHost(boolean host) {
-        this.host = host;
-    }
 }

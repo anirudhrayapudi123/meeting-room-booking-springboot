@@ -1,29 +1,30 @@
 package com.example.Dto;
 
 
+import java.util.Date;
 import java.time.LocalDateTime;
 
 public class ValidatingSlotsDto {
 
-    private LocalDateTime startDate;
+    private Date startDate;
 
-    private LocalDateTime endDate;
+    private Date endDate;
 
     private String roomName;
 
-    public LocalDateTime getStartDate() {
+    public Date getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(LocalDateTime startDate) {
+    public void setStartDate(Date startDate) {
         this.startDate = startDate;
     }
 
-    public LocalDateTime getEndDate() {
+    public Date getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(LocalDateTime endDate) {
+    public void setEndDate(Date endDate) {
         this.endDate = endDate;
     }
 

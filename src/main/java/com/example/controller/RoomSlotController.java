@@ -44,7 +44,7 @@ public class RoomSlotController {
      }
 
      @RequestMapping(value = "myMeetings",method = RequestMethod.POST)
-     public ResponseEntity<Object> myMeetings(@RequestBody MyMeetingsGetDto myMeetingsGetDto){
+     public ResponseEntity<Object> myMeetings(@RequestBody MyMeetingsGetDto myMeetingsGetDto) throws CustomException{
         return ResponseEntity.status(200).body(roomSlot.myMeetings(myMeetingsGetDto));
      }
 

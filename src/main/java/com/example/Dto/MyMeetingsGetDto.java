@@ -1,12 +1,14 @@
 package com.example.Dto;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 public class MyMeetingsGetDto {
 
     private String participant;
 
-    private LocalDateTime startTime;
+    private Date startDate;
 
     public String getParticipant() {
         return participant;
@@ -16,11 +18,11 @@ public class MyMeetingsGetDto {
         this.participant = participant;
     }
 
-    public LocalDateTime getStartTime() {
-        return startTime;
+    public Date getStartDate() {
+        return startDate;
     }
 
-    public void setStartTime(LocalDateTime startTime) {
-        this.startTime = startTime;
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
     }
 }

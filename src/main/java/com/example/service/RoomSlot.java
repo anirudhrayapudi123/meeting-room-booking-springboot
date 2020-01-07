@@ -18,8 +18,8 @@ public interface RoomSlot {
     List<SlotsDto> getSlots(RoomSlotDto roomSlotDto) throws CustomException;
     String bookSlots(RoomSlotBookDto roomSlotBookDto);
     ResponseEntity<Object> deleteSession(String uniqueHash) throws CustomException;
-
-    List<MyMeetingsDto> myMeetings(MyMeetingsGetDto myMeetingsGetDto);
+    ResponseEntity<Object> myMeetings(MyMeetingsGetDto myMeetingsGetDto)throws CustomException;
+    //List<MyMeetingsDto> myMeetings(MyMeetingsGetDto myMeetingsGetDto);
 
    String getValidation(ValidatingSlotsDto validatingSlotsDto);
 

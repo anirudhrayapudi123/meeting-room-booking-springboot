@@ -15,19 +15,19 @@ import java.util.Date;
 import java.util.List;
 
 @Repository
-public interface CreateSlotRepositoty extends JpaRepository<RoomSlotsEntity,String>{
+public interface CreateSlotRepository extends JpaRepository<RoomSlotsEntity,String>{
 
     RoomSlotsEntity findByUniqueHash(String uniqueHash);
     int removeByUniqueHash(String uniqueHash);
 
-    List<RoomSlotsEntity> findAllByRoomHostAndStartTime(String hostName,LocalDateTime startTime);
+    List<RoomSlotsEntity> findAllByRoomHostAndStartTime(String hostName,Date startTime);
 //    @Query(value = "select * from session.session_details where ((room_start_date_time>:startTime AND room_start_date_time<:endTime) OR (room_end_date_time>:startTime AND room_end_date_time<:endTime)) AND room_name=:roomName'"
 //            ,nativeQuery = true)
 //    List<RoomSlotEntity> findAllBetweenDatesAndRoomName(@Param("startTime") String startTime, @Param("endTime") String endTime, @Param("roomName") String roomName);
 
     // (room_start_date_time > '2020-01-01 06:00:00' AND room_start_date_time < '2020-01-01 07:30:00')
     //or(room_end_date_time  > '2020-01-01 06:00:00' AND room_end_date_time < '2020-01-01 07:30:00')
-    List<RoomSlotsEntity> findByStartTimeOrStartTimeGreaterThanAndStartTimeLessThanOrEndTimeGreaterThanAndEndTimeOrEndTimeLessThanAndRoomName(LocalDateTime startTime1,LocalDateTime startTime2,LocalDateTime endTime1,LocalDateTime startTime3,LocalDateTime endTime2,LocalDateTime endTime3,String roomName);
+    List<RoomSlotsEntity> findByStartTimeGreaterThanAndStartTimeLessThanOrEndTimeGreaterThanAndEndTimeLessThanAndRoomName(Date startTime1,Date startTime2,Date endTime1,Date endTime2,String roomName);
 
 }
 
