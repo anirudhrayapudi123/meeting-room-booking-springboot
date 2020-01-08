@@ -29,16 +29,16 @@ public class RoomParticipantEntity {
     @Column(name = "start_date")
     private Date startDate;
 
-    public String getManager() {
-        return manager;
+    public String getRole() {
+        return role;
     }
 
-    public void setManager(String manager) {
-        this.manager = manager;
+    public void setRole(String role) {
+        this.role = role;
     }
 
     @Column(name = "is_manager")
-    private String manager;
+    private String role;
 
 
 

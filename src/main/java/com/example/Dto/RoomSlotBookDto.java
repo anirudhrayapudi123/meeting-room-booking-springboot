@@ -17,11 +17,21 @@ public class RoomSlotBookDto {
 
     private String roomReason;
 
+    public String getRoomFloor() {
+        return roomFloor;
+    }
+
+    public void setRoomFloor(String roomFloor) {
+        this.roomFloor = roomFloor;
+    }
+
     private String roomHost;
 
     private String roomName;
 
     private String roomType;
+
+    private String roomFloor;
 
     private String[] participants;
 

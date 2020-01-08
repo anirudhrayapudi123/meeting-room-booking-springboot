@@ -17,17 +17,18 @@ public class Mapping {
     }
 
 
-    public String getManager() {
-        return manager;
-    }
-
-    public void setManager(String manager) {
-        this.manager = manager;
-    }
 
     private Date startDate;
 
-    private String manager;
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    private String role;
 
     public String getUniqueHash() {
         return uniqueHash;

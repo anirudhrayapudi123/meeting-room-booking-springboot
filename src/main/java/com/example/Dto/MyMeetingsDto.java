@@ -1,41 +1,62 @@
 package com.example.Dto;
 
 import java.sql.Date;
+import java.sql.Time;
 
 
 public class MyMeetingsDto {
 
-    private Date startTime;
+    private Time startTime;
 
-    private Date endTime;
+    private Time endTime;
+
+    public String getRoomSubject() {
+        return roomSubject;
+    }
+
+    public void setRoomSubject(String roomSubject) {
+        this.roomSubject = roomSubject;
+    }
 
     private String roomName;
 
     private String roomHost;
 
-    public String getManager() {
-        return manager;
+    private String roomSubject;
+
+    private int roomFloor;
+
+    public int getRoomFloor() {
+        return roomFloor;
     }
 
-    public void setManager(String manager) {
-        this.manager = manager;
+    public void setRoomFloor(int roomFloor) {
+        this.roomFloor = roomFloor;
     }
 
-    private String manager;
+    public String getRole() {
+        return role;
+    }
 
-    public Date getStartTime() {
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    private String role;
+
+    public Time getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(Date startTime) {
+    public void setStartTime(Time startTime) {
         this.startTime = startTime;
     }
 
-    public Date getEndTime() {
+    public Time getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(Date endTime) {
+    public void setEndTime(Time endTime) {
         this.endTime = endTime;
     }
 

@@ -77,7 +77,7 @@ public class RoomSlotImpl implements RoomSlot {
             mapping1.setParticipant(roomSlotBookDto.getRoomHost());
             mapping1.setStartDate(roomSlotBookDto.getStartTime());
             mapping1.setUniqueHash(uuid);
-            mapping1.setManager("manager");
+            mapping1.setRole("manager");
             System.out.println("Hello");
             RoomParticipantEntity roomParticipantEntity1=modelMapper.map(mapping1,RoomParticipantEntity.class);
             roomParticiptantsEntryRepository.save(roomParticipantEntity1);
@@ -88,7 +88,7 @@ public class RoomSlotImpl implements RoomSlot {
 
                mapping.setUniqueHash(uuid);
                mapping.setStartDate(roomSlotBookDto.getStartTime());
-               mapping.setManager("participant");
+               mapping.setRole("participant");
            roomParticipantEntity= modelMapper.map(mapping, RoomParticipantEntity.class);
                roomParticiptantsEntryRepository.save(roomParticipantEntity);
             }
@@ -125,7 +125,7 @@ public class RoomSlotImpl implements RoomSlot {
 
                 myMeetingsDto=modelMapper.map(roomSlotsEntity,MyMeetingsDto.class);
 
-                myMeetingsDto.setManager(room.getManager());
+                myMeetingsDto.setRole(room.getRole());
                 al.add(myMeetingsDto);
             }
             return ResponseEntity.status(HttpStatus.ACCEPTED).body(al);
