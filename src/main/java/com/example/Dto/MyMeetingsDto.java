@@ -6,9 +6,9 @@ import java.sql.Time;
 
 public class MyMeetingsDto {
 
-    private Time startTime;
+    private java.util.Date startTime;
 
-    private Time endTime;
+    private java.util.Date endTime;
 
     public String getRoomSubject() {
         return roomSubject;
@@ -44,19 +44,19 @@ public class MyMeetingsDto {
 
     private String role;
 
-    public Time getStartTime() {
+    public java.util.Date getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(Time startTime) {
+    public void setStartTime(java.util.Date startTime) {
         this.startTime = startTime;
     }
 
-    public Time getEndTime() {
+    public java.util.Date getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(Time endTime) {
+    public void setEndTime(java.util.Date endTime) {
         this.endTime = endTime;
     }
 

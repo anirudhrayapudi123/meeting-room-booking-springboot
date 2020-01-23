@@ -12,5 +12,5 @@ import java.util.List;
 public interface RoomParticiptantsEntryRepository extends JpaRepository<RoomParticipantEntity,String> {
     List<RoomParticipantEntity> findByParticipantAndStartDate(String participant,Date startDate);
 
-    void removeByUniqueHash(String uuid);
+    int removeByUniqueHash(String uuid);
 }

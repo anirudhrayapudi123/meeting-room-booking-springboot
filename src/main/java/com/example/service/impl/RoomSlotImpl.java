@@ -15,6 +15,7 @@ import org.modelmapper.TypeToken;
 import javax.transaction.Transactional;
 import java.lang.reflect.Type;
 
+import java.sql.Time;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -37,7 +38,7 @@ public class RoomSlotImpl implements RoomSlot {
     RoomParticipantEntity roomParticipantEntity;
     private ModelMapper modelMapper = new ModelMapper();
 
-   // private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     @Override
     public List<Integer> getFloor() throws CustomException {
@@ -108,7 +109,7 @@ public class RoomSlotImpl implements RoomSlot {
         RoomSlotsEntity roomSlotsEntity = createSlotRepository.findByUniqueHash(uniqueHash);
         if (roomSlotsEntity == null) {
             throw new CustomException("This Session does not exist", HttpStatus.NO_CONTENT);
-        } else if (createSlotRepository.removeByUniqueHash(uniqueHash) != 0) {
+        } else if ((createSlotRepository.removeByUniqueHash(uniqueHash) != 0)&&(roomParticiptantsEntryRepository.removeByUniqueHash(uniqueHash)!=0) ) {
             return ResponseEntity.status(HttpStatus.ACCEPTED).body("Session Deleted Succesfully");
         }
         throw new CustomException("This Session does not exist", HttpStatus.NO_CONTENT);
@@ -124,18 +125,20 @@ public class RoomSlotImpl implements RoomSlot {
                 RoomSlotsEntity roomSlotsEntity=createSlotRepository.findByUniqueHash(str);
                 MyMeetingsDto myMeetingsDto=null;
 
-//                System.out.println(roomSlotsEntity.getStartTime());
 //                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 //                sdf.setTimeZone(TimeZone.getTimeZone("IST"));
 //                Date date = sdf.parse(roomSlotsEntity.getStartTime().toString().trim());
 //                roomSlotsEntity.setStartTime(date);
-//                SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-//                sdf1.setTimeZone(TimeZone.getTimeZone("IST"));
-//                Date date2 =sdf1.parse(roomSlotsEntity.getEndTime().toString().trim());
+//                Date date2 =sdf.parse(roomSlotsEntity.getEndTime().toString().trim());
 //                roomSlotsEntity.setEndTime(date2);
+
+                DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                formatter.setTimeZone(TimeZone.getTimeZone("Asia/Kolkata")); // Or whatever IST is supposed to be
+                System.out.println(formatter.format(roomSlotsEntity.getStartTime()));
 
 
                 myMeetingsDto=modelMapper.map(roomSlotsEntity,MyMeetingsDto.class);
+               // myMeetingsDto.setStartTime(new Time(roomSlotsEntity.getStartTime().getTime()));
                 myMeetingsDto.setRole(room.getRole());
                 al.add(myMeetingsDto);
             }
@@ -190,7 +193,7 @@ public class RoomSlotImpl implements RoomSlot {
             return ResponseEntity.status(HttpStatus.ACCEPTED).body("Updated Succesfully");
         }
         else{
-            return ResponseEntity.status(HttpStatus.ACCEPTED).body("Failed to Update");
+            return ResponseEntity.status(HttpStatus.ACCEPTED).body("Updation failed");
         }
 
     }
