@@ -71,13 +71,19 @@ public class RoomSlotController {
         return ResponseEntity.status(200).body(roomSlot.getSessionDetails(uniqueHash));
     }
 
+//    @CrossOrigin(origins="http://localhost:8080")
+//    @RequestMapping(value = "/validatingSlots/{startTime}/{endTime}/{roomName}",method = RequestMethod.GET)
+//    public ResponseEntity<Object> validatingSlots(@PathVariable Date startTime, @PathVariable Date endTime, @PathVariable String roomName) throws CustomException, ParseException {
+//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+//        Date startDateTime=sdf.parse(startTime.trim());
+//        Date endDateTime=sdf.parse(endTime.trim());
+//        return ResponseEntity.status(200).body(roomSlot.findRoomSlots(startDateTime,endDateTime,roomName));
+//    }
+
     @CrossOrigin(origins="http://localhost:8080")
-    @RequestMapping(value = "/test/{startTime}/{endTime}/{roomName}",method = RequestMethod.GET)
-    public ResponseEntity<Object> validatingSlots(@PathVariable String startTime, @PathVariable String endTime, @PathVariable String roomName) throws CustomException, ParseException {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-        Date startDateTime=sdf.parse(startTime.trim());
-        Date endDateTime=sdf.parse(endTime.trim());
-        return ResponseEntity.status(200).body(roomSlot.findRoomSlots(startDateTime,endDateTime,roomName));
+    @RequestMapping(value = "/validatingSlots",method = RequestMethod.POST)
+    public ResponseEntity<Object> validatingSlots(@RequestBody ValidatingSlotsDto validatingSlotsDto) throws CustomException, ParseException {
+        return ResponseEntity.status(200).body(roomSlot.findRoomSlots(validatingSlotsDto));
     }
 }
 

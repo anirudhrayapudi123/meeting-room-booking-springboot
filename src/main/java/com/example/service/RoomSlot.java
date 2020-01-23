@@ -29,5 +29,5 @@ public interface RoomSlot {
 
     RoomSlotsEntity getSessionDetails(String uuid) throws CustomException;
 
-    String findRoomSlots(Date startTime,Date endTime,String roomName);
+    String findRoomSlots(ValidatingSlotsDto validatingSlotsDto);
 }

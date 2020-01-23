@@ -150,8 +150,8 @@ public class RoomSlotImpl implements RoomSlot {
     }
 
     @Override
-    public String findRoomSlots(Date startTime, Date endTime, String roomName){
-      List<Object> roomSlotsEntities= createSlotRepository.findRoomSlots(startTime,endTime,roomName);
+    public String findRoomSlots(ValidatingSlotsDto validatingSlotsDto){
+      List<Object> roomSlotsEntities= createSlotRepository.findRoomSlots(validatingSlotsDto.getStartDate(),validatingSlotsDto.getEndDate(),validatingSlotsDto.getRoomName());
      if(roomSlotsEntities.isEmpty()){
        // throw new CustomException("Slots Available",HttpStatus.ACCEPTED);
          return "slots available";
