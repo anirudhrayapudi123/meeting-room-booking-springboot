@@ -33,12 +33,8 @@ public class RoomSlotsEntity {
     @Column(name = "room_subject")
     private String roomSubject;
 
-
-
     @Column(name = "room_reason")
     private String roomReason;
-
-
 
     @Column(name = "room_host")
     private String roomHost;
@@ -51,6 +47,7 @@ public class RoomSlotsEntity {
 
     @Column(name = "room_floor")
     private int roomFloor;
+
     public int getRoomFloor() {
         return roomFloor;
     }
@@ -64,6 +61,7 @@ public class RoomSlotsEntity {
     }
 
     public void setStartTime(Date startTime) {
+
         this.startTime = startTime;
     }
 

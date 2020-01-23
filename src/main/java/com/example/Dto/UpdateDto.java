@@ -1,14 +1,15 @@
 package com.example.Dto;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 public class UpdateDto {
 
     private String uniqueHash;
 
-    private LocalDateTime startTime;
+    private Date startTime;
 
-    private LocalDateTime endTime;
+    private Date endTime;
 
     private String roomSubject;
 
@@ -22,6 +23,16 @@ public class UpdateDto {
 
     private String[] participants;
 
+    private int roomFloor;
+
+    public int getRoomFloor() {
+        return roomFloor;
+    }
+
+    public void setRoomFloor(int roomFloor) {
+        this.roomFloor = roomFloor;
+    }
+
     public String getUniqueHash() {
         return uniqueHash;
     }
@@ -30,19 +41,19 @@ public class UpdateDto {
         this.uniqueHash = uniqueHash;
     }
 
-    public LocalDateTime getStartTime() {
+    public Date getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(LocalDateTime startTime) {
+    public void setStartTime(Date startTime) {
         this.startTime = startTime;
     }
 
-    public LocalDateTime getEndTime() {
+    public Date getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(LocalDateTime endTime) {
+    public void setEndTime(Date endTime) {
         this.endTime = endTime;
     }
 

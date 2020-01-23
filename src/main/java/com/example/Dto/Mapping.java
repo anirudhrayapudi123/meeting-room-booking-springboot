@@ -1,5 +1,6 @@
 package com.example.Dto;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 public class Mapping {
@@ -15,8 +16,6 @@ public class Mapping {
     public void setStartDate(Date startDate) {
         this.startDate = startDate;
     }
-
-
 
     private Date startDate;
 

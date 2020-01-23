@@ -2,6 +2,7 @@ package com.example.entity;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
@@ -25,6 +26,7 @@ public class RoomParticipantEntity {
         this.startDate = startDate;
     }
 
+
     @Temporal(TemporalType.DATE)
     @Column(name = "start_date")
     private Date startDate;
@@ -39,8 +41,6 @@ public class RoomParticipantEntity {
 
     @Column(name = "is_manager")
     private String role;
-
-
 
     public String getUniqueHash() {
         return uniqueHash;

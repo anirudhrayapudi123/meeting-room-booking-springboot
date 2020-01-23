@@ -27,7 +27,26 @@ public interface CreateSlotRepository extends JpaRepository<RoomSlotsEntity,Stri
 
     // (room_start_date_time > '2020-01-01 06:00:00' AND room_start_date_time < '2020-01-01 07:30:00')
     //or(room_end_date_time  > '2020-01-01 06:00:00' AND room_end_date_time < '2020-01-01 07:30:00')
-    List<RoomSlotsEntity> findByStartTimeGreaterThanAndStartTimeLessThanOrEndTimeGreaterThanAndEndTimeLessThanAndRoomName(Date startTime1,Date startTime2,Date endTime1,Date endTime2,String roomName);
 
+
+//    @Query(value="select e from RoomSlotsEntity e where (((e.startTime >=:startTime) \n" +
+//            " AND (e.startTime <:endTime)) \n" +
+//            " OR ((e.endTime >:startTime) \n" +
+//            " AND (e.endTime <=:endTime))) AND e.roomName=:roomName")
+//    List<RoomSlotsEntity> findByStartTimeGreaterThanEqualAndStartTimeLessThanOrEndTimeGreaterThanAndEndTimeLessThanEqualAndRoomName(@Param("startTime") Date startTime,@Param("endTime") Date endTime,@Param("roomName") String roomName);
+
+    @Query(value = "select * from session.session_details where \n" +
+            " (((room_start_date_time >= :startTime) \n" +
+            " AND (room_start_date_time < :endTime)) \n" +
+            " OR ((room_end_date_time > :startTime) \n" +
+            " AND (room_end_date_time <=  :endTime))) AND (room_name=:roomName);",nativeQuery = true)
+    List<Object> findRoomSlots(@Param("startTime") Date startTime,@Param("endTime") Date endTime,@Param("roomName") String roomName);
+
+    @Query(value = "select * from session.session_details where \n" +
+            " (((room_start_date_time >= :startTime) \n" +
+            " AND (room_start_date_time < :endTime)) \n" +
+            " OR ((room_end_date_time > :startTime) \n" +
+            " AND (room_end_date_time <=  :endTime))) AND (room_name=:roomName);",nativeQuery = true)
+    List<Object> findRoomSlot(@Param("startTime") LocalDateTime startTime,@Param("endTime") LocalDateTime endTime,@Param("roomName") String roomName);
 }
 
