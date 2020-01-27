@@ -54,7 +54,7 @@ public class RoomSlotEntity {
         this.roomType = roomType;
     }
 
-    public Date getStartTime() {
+    public Time getStartTime() {
         return startTime;
     }
 

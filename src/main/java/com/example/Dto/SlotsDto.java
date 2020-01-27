@@ -12,25 +12,24 @@ import java.time.LocalTime;
 
 public class SlotsDto {
 
-    private Time roomStartTime;
+    private java.util.Date roomStartTime;
 
-    private Time roomEndTime;
+    private java.util.Date roomEndTime;
     private String roomHost;
-
 
     public java.util.Date getRoomStartTime() {
         return roomStartTime;
     }
 
-    public void setRoomStartTime(Time roomStartTime) {
+    public void setRoomStartTime(java.util.Date roomStartTime) {
         this.roomStartTime = roomStartTime;
     }
 
-    public Time getRoomEndTime() {
+    public java.util.Date getRoomEndTime() {
         return roomEndTime;
     }
 
-    public void setRoomEndTime(Time roomEndTime) {
+    public void setRoomEndTime(java.util.Date roomEndTime) {
         this.roomEndTime = roomEndTime;
     }
 

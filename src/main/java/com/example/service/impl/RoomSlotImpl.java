@@ -19,10 +19,7 @@ import java.sql.Time;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.TimeZone;
+import java.util.*;
 
 @Service
 public class RoomSlotImpl implements RoomSlot {
@@ -60,7 +57,21 @@ public class RoomSlotImpl implements RoomSlot {
 
     @Override
     public List<SlotsDto> getSlots(RoomSlotDto roomSlotDto) throws CustomException {
-        List<RoomSlotEntity> slots = slotsRepository.findAllByDate(roomSlotDto.getDate(), roomSlotDto.getRoomName());
+       // List<RoomSlotEntity> slots = slotsRepository.findAllByStartTimeAndRoomName(roomSlotDto.getDate(), roomSlotDto.getRoomName());
+        List<RoomParticipantEntity> hash=roomParticiptantsEntryRepository.findByStartDate(roomSlotDto.getStartDate());
+        Set<String> st=new HashSet<>();
+        for(RoomParticipantEntity room:hash){
+            String str=room.getUniqueHash();
+            st.add(str);
+        }
+
+        List<RoomSlotsEntity> slots=new ArrayList<RoomSlotsEntity>();
+         for(String str1:st){
+             System.out.println(str1);
+            RoomSlotsEntity slot=(createSlotRepository.findAllByUniqueHashAndRoomName(str1,roomSlotDto.getRoomName()));
+            slots.add(slot);
+         }
+
         Type listType = new TypeToken<List<SlotsDto>>() {}.getType();
         List<SlotsDto> SlotDTOList = modelMapper.map(slots, listType);
         if(SlotDTOList==null){

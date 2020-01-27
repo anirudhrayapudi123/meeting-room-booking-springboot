@@ -1,5 +1,6 @@
 package com.example.repository;
 
+import com.example.Dto.SlotsDto;
 import com.example.entity.RoomSlotEntity;
 import com.example.entity.RoomSlotsEntity;
 import com.example.service.RoomSlot;
@@ -21,6 +22,12 @@ public interface CreateSlotRepository extends JpaRepository<RoomSlotsEntity,Stri
     int removeByUniqueHash(String uniqueHash);
 
     List<RoomSlotsEntity> findAllByRoomHostAndStartTime(String hostName,Date startTime);
+
+
+
+    RoomSlotsEntity findAllByUniqueHashAndRoomName(String uniqueHash, String roomName);
+
+
 //    @Query(value = "select * from session.session_details where ((room_start_date_time>:startTime AND room_start_date_time<:endTime) OR (room_end_date_time>:startTime AND room_end_date_time<:endTime)) AND room_name=:roomName'"
 //            ,nativeQuery = true)
 //    List<RoomSlotEntity> findAllBetweenDatesAndRoomName(@Param("startTime") String startTime, @Param("endTime") String endTime, @Param("roomName") String roomName);

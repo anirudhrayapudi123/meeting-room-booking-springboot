@@ -5,18 +5,19 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 public class RoomSlotDto {
 
-    private String date;
+    private Date startDate;
     private String roomName;
 
-    public String getDate() {
-        return date;
+    public Date getStartDate() {
+        return startDate;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
     }
 
     public String getRoomName() {
