@@ -23,11 +23,11 @@ public interface RoomSlot {
     ResponseEntity<Object> myMeetings(MyMeetingsGetDto myMeetingsGetDto)throws CustomException, ParseException;
     //List<MyMeetingsDto> myMeetings(MyMeetingsGetDto myMeetingsGetDto);
 
- //  String getValidation(ValidatingSlotsDto validatingSlotsDto);
+   String findRoomSlots(ValidatingSlotsDto validatingSlotsDto);
 
    ResponseEntity<Object> updateSlots(UpdateDto updateDto) throws CustomException;
 
     RoomSlotsEntity getSessionDetails(String uuid) throws CustomException;
 
-    String findRoomSlots(ValidatingSlotsDto validatingSlotsDto);
+    //String findRoomSlots(Date startDateTime,Date endDateTime,String roomName);
 }

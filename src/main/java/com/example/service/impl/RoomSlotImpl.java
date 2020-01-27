@@ -149,18 +149,18 @@ public class RoomSlotImpl implements RoomSlot {
         }
     }
 
-    @Override
-    public String findRoomSlots(ValidatingSlotsDto validatingSlotsDto){
-      List<Object> roomSlotsEntities= createSlotRepository.findRoomSlots(validatingSlotsDto.getStartDate(),validatingSlotsDto.getEndDate(),validatingSlotsDto.getRoomName());
-     if(roomSlotsEntities.isEmpty()){
-       // throw new CustomException("Slots Available",HttpStatus.ACCEPTED);
-         return "slots available";
-        }
-        else{
-        //throw new CustomException("Slots Occupied",HttpStatus.ACCEPTED);
-         return "slots Occupied";
-     }
-    }
+//    @Override
+//    public String findRoomSlots(Date startDateTime,Date endDateTime,String roomName){
+//      List<Object> roomSlotsEntities= createSlotRepository.findRoomSlots(startDateTime,endDateTime,roomName);
+//     if(roomSlotsEntities.isEmpty()){
+//       // throw new CustomException("Slots Available",HttpStatus.ACCEPTED);
+//         return "slots available";
+//        }
+//        else{
+//        //throw new CustomException("Slots Occupied",HttpStatus.ACCEPTED);
+//         return "slots Occupied";
+//     }
+//    }
 
     @Transactional
     @Override
@@ -207,5 +207,20 @@ public class RoomSlotImpl implements RoomSlot {
            throw new CustomException("Session not Available",HttpStatus.NO_CONTENT);
         }
     }
+
+
+    @Override
+    public String findRoomSlots(ValidatingSlotsDto validatingSlotsDto){
+        List<Object> roomSlotsEntities= createSlotRepository.findRoomSlots(validatingSlotsDto.getStartDate(),validatingSlotsDto.getEndDate(),validatingSlotsDto.getRoomName());
+        if(roomSlotsEntities.isEmpty()){
+            // throw new CustomException("Slots Available",HttpStatus.ACCEPTED);
+            return "slots available";
+        }
+        else{
+            //throw new CustomException("Slots Occupied",HttpStatus.ACCEPTED);
+            return "slots Occupied";
+        }
+    }
+
 
 }

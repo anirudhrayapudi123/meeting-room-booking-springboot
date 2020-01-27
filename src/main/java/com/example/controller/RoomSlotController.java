@@ -29,6 +29,7 @@ public class RoomSlotController {
     public ResponseEntity<Object> getFloors() throws CustomException{
         return ResponseEntity.status(200).body(roomSlot.getFloor());
     }
+
     @CrossOrigin(origins="http://localhost:8080")
     @RequestMapping(value="/roomnames/{roomFloor}",method = RequestMethod.POST)
     public ResponseEntity<Object> getRooms(@PathVariable int roomFloor) throws CustomException{
@@ -73,7 +74,7 @@ public class RoomSlotController {
 
 //    @CrossOrigin(origins="http://localhost:8080")
 //    @RequestMapping(value = "/validatingSlots/{startTime}/{endTime}/{roomName}",method = RequestMethod.GET)
-//    public ResponseEntity<Object> validatingSlots(@PathVariable Date startTime, @PathVariable Date endTime, @PathVariable String roomName) throws CustomException, ParseException {
+//    public ResponseEntity<Object> validatingSlots(@PathVariable String startTime, @PathVariable String endTime, @PathVariable String roomName) throws CustomException, ParseException {
 //        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 //        Date startDateTime=sdf.parse(startTime.trim());
 //        Date endDateTime=sdf.parse(endTime.trim());
